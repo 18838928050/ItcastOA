@@ -1,0 +1,107 @@
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<html>
+<head>
+    <%@ include file="/WEB-INF/jsp/public/common.jspf" %>
+	<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/style/blue/forum.css" />
+	<script type="text/javascript">
+		function onSortByChange( selectedValue ){
+			if(selectedValue == 0){
+				$("select[name=asc]").attr("disabled", "disabled");	
+			}else{
+				$("select[name=asc]").removeAttr("disabled");	
+			}
+		}
+		$(function(){
+			if($("select[name=orderBy]").val() == '0'){
+				$("select[name=asc]").attr("disabled", "disabled");		
+			}
+		});
+	</script>
+</head>
+<body>
+
+<!-- 标题显示 -->
+<div id="Title_bar">
+    <div id="Title_bar_Head">
+        <div id="Title_Head"></div>
+        <div id="Title"><!--页面标题-->
+           板块 [${forum.name}]中的主题列表
+        </div>
+        <div id="Title_End"></div>
+    </div>
+</div>
+<div>
+		<br><br>
+		
+		</div>
+<s:form action="forumAction_show?id=%{id}">
+<div id="">
+	<div id=""></div>
+		<div class="ItemBlck_Title1" style="width: 98%;">
+			<font color="black"> &gt; </font>
+			<s:a action="forumAction_list">	<font color="blue"> 论坛 </font></s:a>
+					<font color="black"> &gt; </font>
+			<font color="blue">${forum.name}</font>
+			<span style="margin-left:30px;">
+				<s:a action="topicAction_addUI?forumId=%{#forum.id}">
+					<font color="green">发表新主题</font>
+				</s:a>
+			</span>
+		</div>
+		<div>
+		<br><br>
+		
+		</div>
+		<div align="center" >
+			<table width="80%" border="0" cellspacing="0" cellpadding="0">
+				<!--表头-->
+				<tr align="left" valign="middle">
+					
+					<td width="130" >主题</td>
+					<td width="130" >作者</td>
+					<td width="100" >回复数</td>
+					<td width="130" >最后回复</td>
+				</tr>
+				<tr height="1" class="ForumPageTableTitleLine"><td colspan="8"></td></tr>
+				<tr height=3><td colspan=8></td></tr>
+					
+				<!--主题列表-->
+				<tbody datakey="topicList">
+				
+				<s:iterator value="recordList">
+					<tr height="35" id="d0" class="">
+						<td class="">
+							<s:a cssClass="" action="topicAction_show?id=%{id}"><font color="blue">${title}</font></s:a>
+						</td>
+						<td>
+							<ul class="">
+								<li >${author.name}</li>
+							</ul>
+						</td>
+						<td align="center"><b>${replyCount}</b></td>
+						<td >
+							<ul >
+								<li >${lastReply.author.name}</li>
+								<li ><s:date name="lastReply.postTime" format="yyyy-MM-dd HH:mm:ss"/></li>
+							</ul>
+						</td>
+					</tr>
+				</s:iterator>	
+					
+				</tbody>
+				<!--主题列表结束-->	
+					
+				<tr height="3"><td colspan="9"></td></tr>
+				
+			</table>
+		</div>
+</div>
+</s:form>
+
+<!--分页信息-->
+<%@ include file="/WEB-INF/jsp/public/pageView.jspf" %>
+
+
+
+</body>
+</html>
